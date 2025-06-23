@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ChatBot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+<div class="container">
+    <div class="sidebar">
+        <h3>Your Chats</h3>
+        <a href="{{ url_for('chat') }}">+ New Chat</a>
+        {% for chat in chats %}
+        <a href="{{ url_for('chat', chat_id=chat._id) }}">{{ chat.title }}</a>
+        {% endfor %}
+        <a href="{{ url_for('logout') }}" class="logout">Logout</a>
+    </div>
+
+    <div class="chatbox">
+        <div class="chat-header">Hi {{ user.nickname or user.name }} 👋</div>
+        <div class="chat-body">
+            {% for msg in messages %}
+                <div class="message {{ msg.role }}">{{ msg.role.capitalize() }}: {{ msg.text }}</div>
+            {% endfor %}
+        </div>
+        <form method="POST" class="chat-input">
+            <input type="text" name="message" placeholder="Type your message..." required>
+            <button type="submit">Send</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
